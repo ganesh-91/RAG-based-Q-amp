@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+kafka-python
+pika
+langchain
+psycopg2-binary
+torch
+transformers
+sentence-transformers
+confluent-kafka
+langchain-community
+unstructured
+numpy
+langchain_unstructured
