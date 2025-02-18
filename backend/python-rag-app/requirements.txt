@@ -12,3 +12,4 @@ langchain-community
 unstructured
 numpy
 langchain_unstructured
+pydantic-settings>=2.0.0

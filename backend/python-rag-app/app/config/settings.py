@@ -1,5 +1,5 @@
 import os
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     POSTGRES_URL: str = os.getenv("POSTGRES_URL", "postgresql+psycopg2://postgres:1234@localhost:5432/rag_db")
