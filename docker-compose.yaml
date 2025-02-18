@@ -106,7 +106,7 @@ services:
     command: sh -c "/wait && npm start"
 
   postgres:
-    image: ankane/pgvector:latest 
+    image: pgvector/pgvector:pg16
     container_name: postgres
     environment:
       POSTGRES_USER: postgres
