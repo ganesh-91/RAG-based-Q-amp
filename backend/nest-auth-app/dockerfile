@@ -1,6 +1,17 @@
-FROM node:16
+FROM node:16-alpine
+
 WORKDIR /app
+
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.9.0/wait /wait
+RUN chmod +x /wait
+
 COPY package*.json ./
-RUN npm install
+
+RUN npm install --production && \
+    npm cache clean --force
+
 COPY . .
-CMD ["npm", "run", "start:prod"]
+
+ENV NODE_ENV production
+
+CMD ["sh", "-c", "/wait && npm run start:prod"]

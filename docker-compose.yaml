@@ -7,7 +7,6 @@ services:
     ports:
       - "9092:9092"
     environment:
-      KAFKA_ENABLE_KRAFT: yes
       KAFKA_CFG_PROCESS_ROLES: broker,controller
       KAFKA_CFG_CONTROLLER_LISTENER_NAMES: CONTROLLER
       KAFKA_CFG_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093
@@ -18,8 +17,10 @@ services:
       KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
     volumes:
       - kafka_data:/bitnami/kafka
+    depends_on:
+      - zookeeper
     healthcheck:
-      test: ["CMD", "kafka-topics.sh", "--list", "--bootstrap-server", "localhost:9092"]
+      test: ["CMD", "kafka-broker-api-versions", "--bootstrap-server", "kafka:9092"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -30,9 +31,14 @@ services:
     ports:
       - "2181:2181"
     environment:
-      - ALLOW_ANONYMOUS_LOGIN=yes
+      ALLOW_ANONYMOUS_LOGIN: yes
     volumes:
       - zookeeper_data:/bitnami/zookeeper
+    healthcheck:
+      test: ["CMD-SHELL", "echo stat | nc localhost 2181 | grep 'Mode'"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   python-backend:
     build: ./backend/python-rag-app
@@ -42,12 +48,16 @@ services:
     environment:
       KAFKA_BROKER: kafka:9092
       DATABASE_URL: postgresql+psycopg2://postgres:1234@postgres:5432/rag_db
-      HUGGINGFACEHUB_API_TOKEN:  # enter your hugginface key her
+      HUGGINGFACEHUB_API_TOKEN: <YOUR_HUGGINGFACE_KEY_HERE>  # Replace with your actual Hugging Face API key
       KAFKA_INGEST_TOPIC: ingestion-trigger
       KAFKA_COMPLETED_TOPIC: ingestion-completed
+      WAIT_HOSTS: kafka:9092,zookeeper:2181,postgres:5432
+      WAIT_HOSTS_TIMEOUT: 300
     depends_on:
       - kafka
       - zookeeper
+      - postgres
+    command: sh -c "/wait && python app.py"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
       interval: 10s
@@ -69,10 +79,13 @@ services:
       DB_DATABASE: rag_db
       KAFKA_BROKER: kafka:9092
       APP_SECRET: 0dd8d1d7c673300e0e800e10e13eb6ee1414c140e046ebf7e2229010ab7ab79a10f06fddeebabfb428b6a380aa12654c
+      WAIT_HOSTS: kafka:9092,zookeeper:2181,postgres:5432
+      WAIT_HOSTS_TIMEOUT: 300
     depends_on:
       - kafka
       - zookeeper
       - postgres
+    command: sh -c "/wait && npm run start"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
       interval: 10s
@@ -87,6 +100,10 @@ services:
     depends_on:
       - nestjs-backend
       - python-backend
+    environment:
+      WAIT_HOSTS: nestjs-backend:3001,python-backend:8000
+      WAIT_HOSTS_TIMEOUT: 300
+    command: sh -c "/wait && npm start"
 
   postgres:
     image: ankane/pgvector:latest 
