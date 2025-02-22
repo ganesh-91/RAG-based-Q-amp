@@ -1,9 +1,12 @@
 # RAG-based Q&A Web Application
 
-This project is a **Retrieval-Augmented Generation (RAG)**-based Q&A web application, showcasing a microservice architecture for an intelligent question-answering system. It integrates **React** for the frontend, **NestJS (Node.js)** for authentication and document management, **Postgre** for storing vector embeddings and **Python** for LLM-based document retrieval.
+This project is a role based **Retrieval-Augmented Generation (RAG)**-based Q&A web application, showcasing a microservice architecture for an intelligent question-answering system. It integrates **React** for the frontend, **NestJS (Node.js)** for authentication and document management, **Postgre** for storing vector embeddings and **Python** for LLM-based document retrieval.
 
 ## Key Features
-- **User Authentication** via secure login/signup system.
+- **User Authentication**: Register, login, logout, and handle user roles
+- **User Management**: for managing user roles and permissions.
+- **Document Management**: for ingestion of new documents.
+- **Ingestion Management**: trigger uploaded document ingestion.
 - **Document Upload and Management** for ingestion of new documents.
 - **RAG-based Q&A** utilizing large language models to retrieve relevant answers.
 - **Microservice Architecture** using **Kafka** for seamless inter-service communication.
@@ -42,37 +45,51 @@ Before you begin, make sure you have the following installed:
 - Kafka
 - Postgres
 - Docker (for Docker setup)
+- Hugging face token
 
-### Local Setup
+### Setup
 
 1. **Clone the Repository**
    ```bash
    git clone https://github.com/yourusername/RAG-based-QA-Application.git
 
-2. **Set up Kafka**
+2. **Hugginface api token**
+   Add token in `backend/python/.env` file
+
+### Running On Local
+
+1. **Set up Kafka**
 Follow this guide to set up Kafka: Kafka Connect Quickstart - https://medium.com/walmartglobaltech/kafka-connect-quickstart-71c8a70bc454.
 
-3. **Setup Postgres and postgres vector plugin**
+2. **Setup Postgres and postgres vector plugin**
 - Download and install postgres from - https://www.postgresql.org/download
 - Install pgvector by following the steup mnetioned in the git repo -https://github.com/pgvector/pgvector
 
-5. **Backend Setup (NestJS - Authentication and Document Management)**
+3. **Backend Setup (NestJS - Authentication and Document Management)**
    ```bash
    cd backend/nest-auth-app
    npm install
-   npm run start:dev
 
-6. **Backend Setup (Python RAG Service)**
+4. **Backend Setup (Python RAG Service)**
    ```bash
    cd backend/python-rag-app
    pip install -r requirements.txt
-   uvicorn app.main:app --reload
 
-7. **Frontend Setup**
+5. **Frontend Setup**
    ```bash
    cd frontend
    npm install
    npm start
+
+7. **Running the app**
+   ```bash
+   cd backend/nest-auth-app
+   npm run start:dev
+   cd ../python-rag-app
+   uvicorn app.main:app --reload
+   cd ../../frontend
+   npm start
+   
 
 ### Running with Docker
 For a streamlined setup using Docker, simply run:
