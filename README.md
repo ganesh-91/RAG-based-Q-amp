@@ -33,8 +33,8 @@ This project is a **Retrieval-Augmented Generation (RAG)**-based Q&A web applica
 
 ### Prerequisites
 Before you begin, make sure you have the following installed:
-- Node.js (v14 or higher)
-- Python (v3.8 or higher)
+- Node.js (v18 or higher)
+- Python (v3 or higher)
 - Kafka
 - Docker (for Docker setup)
 
