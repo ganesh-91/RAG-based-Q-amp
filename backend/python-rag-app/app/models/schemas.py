@@ -1,6 +1,4 @@
-# models/schemas.py
-
-from pydantic_settings import BaseModel
+from pydantic import BaseModel
 from typing import List, Dict, Any
 
 class Message(BaseModel):

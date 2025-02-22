@@ -4,7 +4,7 @@ from fastapi import APIRouter, HTTPException
 from app.models.schemas import SearchRequest, DocumentResponse
 from app.services.document_service import DocumentService
 from app.services.qa_service import QAService
-from pydantic_settings import BaseModel
+from pydantic import BaseModel
 
 router = APIRouter()
 document_service = DocumentService()

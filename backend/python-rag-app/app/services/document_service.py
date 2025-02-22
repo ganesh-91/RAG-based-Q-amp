@@ -2,11 +2,11 @@ import os
 import logging
 from typing import List, Dict, Any
 
-from langchain.vectorstores import PGVector
+from langchain_community.vectorstores import PGVector
 from langchain.schema import Document
-from langchain.document_loaders import PyPDFLoader
+from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.embeddings import HuggingFaceEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 
 from app.config.settings import settings
 
