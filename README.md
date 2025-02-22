@@ -53,8 +53,16 @@ Before you begin, make sure you have the following installed:
    ```bash
    git clone https://github.com/yourusername/RAG-based-QA-Application.git
 
-2. **Hugginface api token**
-   Add token in `backend/python/.env` file
+2. **Add environment keys**  
+  
+  ```bash
+  copy backend/python-rag-app/.env.example backend/python-rag-app/.env
+  copy backend/nest-auth-app/.env.example backend/nest-auth-app/.env
+  ```
+
+  Add keys in below env file  
+  `backend/nest-auth-app/.env`  
+  `backend/python-rag-app/.env`
 
 ### Running On Local
 
