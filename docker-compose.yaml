@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   kafka:
@@ -20,7 +20,8 @@ services:
     depends_on:
       - zookeeper
     healthcheck:
-      test: ["CMD", "kafka-broker-api-versions", "--bootstrap-server", "kafka:9092"]
+      test:
+        ["CMD", "kafka-broker-api-versions", "--bootstrap-server", "kafka:9092"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -70,8 +71,8 @@ services:
     ports:
       - "3001:3001"
     environment:
-      KAFKA_INGEST_TOPIC: ingestion-trigger
-      KAFKA_COMPLETED_TOPIC: ingestion-completed
+      KAFKA_INGEST_TOPIC: "ingestion-trigger"
+      KAFKA_COMPLETED_TOPIC: "ingestion-completed"
       DB_HOST: postgres
       DB_PORT: 5432
       DB_USERNAME: postgres
@@ -99,9 +100,8 @@ services:
       - "3000:3000"
     depends_on:
       - nestjs-backend
-      - python-backend
     environment:
-      WAIT_HOSTS: nestjs-backend:3001,python-backend:8000
+      WAIT_HOSTS: nestjs-backend:3001
       WAIT_HOSTS_TIMEOUT: 300
     command: sh -c "/wait && npm start"
 
