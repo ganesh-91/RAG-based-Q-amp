@@ -26,6 +26,7 @@ class DocumentService:
                 embedding=self.embedding_model,
                 collection_name=self.collection_name,
                 connection_string=self.connection_string,
+                use_jsonb=True,
             )
         except Exception as e:
             logger.warning(f"Failed to load existing vectorstore: {e}")
@@ -34,6 +35,7 @@ class DocumentService:
                 embedding_function=self.embedding_model,
                 collection_name=self.collection_name,
                 connection_string=self.connection_string,
+                use_jsonb=True,
             )
 
     def load_document(self, file_path: str) -> List[Document]:

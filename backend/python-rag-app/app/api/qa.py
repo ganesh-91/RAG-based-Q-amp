@@ -1,7 +1,7 @@
 # app/api/search.py
 from typing import List
 from fastapi import APIRouter, HTTPException
-from app.models.schemas import SearchRequest, DocumentResponse
+from app.models import SearchRequest, DocumentResponse
 from app.services.document_service import DocumentService
 from app.services.qa_service import QAService
 from pydantic import BaseModel

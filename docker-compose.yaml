@@ -47,7 +47,7 @@ services:
       - "8000:8000"
     environment:
       KAFKA_BROKER: kafka:9092
-      DATABASE_URL: postgresql+psycopg2://postgres:1234@postgres:5432/rag_db
+      POSTGRES_URL: postgresql+psycopg2://postgres:1234@postgres:5432/rag_db
       HUGGINGFACEHUB_API_TOKEN: <YOUR_HUGGINGFACE_KEY_HERE>  # Replace with your actual Hugging Face API key
       KAFKA_INGEST_TOPIC: ingestion-trigger
       KAFKA_COMPLETED_TOPIC: ingestion-completed
@@ -57,7 +57,7 @@ services:
       - kafka
       - zookeeper
       - postgres
-    command: sh -c "/wait && uvicorn app.main:app --host 0.0.0.0 --port 8000"
+    command: sh -c "/wait && alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
       interval: 10s

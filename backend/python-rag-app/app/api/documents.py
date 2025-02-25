@@ -1,7 +1,7 @@
 # api/documents.py
 from typing import List, Dict, Optional, Any
 from fastapi import APIRouter, HTTPException, UploadFile, File
-from app.models.schemas import DocumentIngestRequest
+from app.models import DocumentIngestRequest
 from app.services.document_service import DocumentService
 
 router = APIRouter()
